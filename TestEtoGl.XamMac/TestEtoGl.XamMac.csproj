@@ -116,12 +116,17 @@
     <Compile Include="MainForm.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
-  <Target Name="FixOpenGL" BeforeTargets="CoreCompile">
+  <Target Name="ReplaceOpenTK" AfterTargets="Build">
     <ItemGroup>
-      <!-- Xamarin.Mac automatically includes its version of OpenTK, we don't want that -->
-      <ReferencePath Remove="/Library/Frameworks/Xamarin.Mac.framework/Versions/Current/lib/reference/net_4_5/OpenTK.dll" />
-      <ReferencePath Include="../packages/OpenTK.3.0.1/lib/net20/OpenTK.dll" />
+      <!-- The Xamarin.Mac compile process forcibly includes its own version of
+      OpenTK in the output .app bundle; a custom target in Eto.Gl.XamMac takes
+      care of compile-time references, and lets the project build, but the wrong
+      binary still ends up in this GUI project's .app. Luckily the right one is
+      present in the output directory, so it's simple to copy it in.-->
+      <OpenTK Include="$(TargetDir)\OpenTK.dll" />
+      <OpenTK Include="$(TargetDir)\OpenTK.pdb" />
     </ItemGroup>
+    <Copy SourceFiles="@(OpenTK)" DestinationFolder="$(OutputAppPath)\Contents\MonoBundle" />
   </Target>
   <Import Project="..\packages\Eto.Forms.2.4.1\build\Eto.Forms.targets" Condition="Exists('..\packages\Eto.Forms.2.4.1\build\Eto.Forms.targets')" />
   <Import Project="..\packages\Eto.Platform.XamMac2.2.4.1\build\Eto.Platform.XamMac2.targets" Condition="Exists('..\packages\Eto.Platform.XamMac2.2.4.1\build\Eto.Platform.XamMac2.targets')" />

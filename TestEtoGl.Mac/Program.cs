@@ -3,6 +3,7 @@ using Eto.Forms;
 using Eto.Drawing;
 using Eto.Gl;
 using Eto.Gl.Mac;
+using OpenTK;
 
 namespace TestEtoGl.Mac
 {
@@ -11,6 +12,8 @@ namespace TestEtoGl.Mac
 		[STAThread]
 		public static void Main(string[] args)
 		{
+			Toolkit.Init(new ToolkitOptions { Backend = PlatformBackend.PreferNative });
+
 			var gen = new Eto.Mac.Platform();
 
 			gen.Add<GLSurface.IHandler> (() => new MacGLSurfaceHandler ());
