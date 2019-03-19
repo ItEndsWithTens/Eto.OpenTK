@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eto.Gl.Gtk2", "Eto.Gl.Gtk2\Eto.Gl.Gtk2.csproj", "{06F7AC59-0E70-4646-BBFA-C105D9664FD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eto.Gl.WinForms", "Eto.Gl.WinForms\Eto.Gl.WinForms.csproj", "{A0DCCC13-936C-4D5A-AD8C-ADFF75816A8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eto.Gl.WinForms", "Eto.Gl.WinForms\Eto.Gl.WinForms.csproj", "{A0DCCC13-936C-4D5A-AD8C-ADFF75816A8F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eto.Gl.Mac", "Eto.Gl.Mac\Eto.Gl.Mac.csproj", "{C6D7920E-3FB5-4DAD-80F1-2B76158D493F}"
 EndProject
@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEtoGl.Mac", "TestEtoGl.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestEtoGl", "TestEtoGl\TestEtoGl.csproj", "{66C691D6-557F-4477-BF96-FA5BC92C715B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEtoGl.WinForms", "TestEtoGl.WinForms\TestEtoGl.WinForms.csproj", "{2A29DA7C-7CB0-458A-9EA8-85811AD952E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestEtoGl.WinForms", "TestEtoGl.WinForms\TestEtoGl.WinForms.csproj", "{2A29DA7C-7CB0-458A-9EA8-85811AD952E1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEtoGl.XamMac", "TestEtoGl.XamMac\TestEtoGl.XamMac.csproj", "{E201F515-1163-401A-ABC0-17A0E6A85764}"
 EndProject
@@ -23,9 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eto.Gl", "Eto.Gl\Eto.Gl.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEtoGl.Gtk2", "TestEtoGl.Gtk2\TestEtoGl.Gtk2.csproj", "{02F28D06-103A-4800-9E40-E9717D77449F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEtoGl.WPF_WinformsHost", "TestEtoGl.WPF_WinformsHost\TestEtoGl.WPF_WinformsHost.csproj", "{B1EB0BB0-C662-4314-A3D3-20E1AD0F98D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestEtoGl.WPF_WinformsHost", "TestEtoGl.WPF_WinformsHost\TestEtoGl.WPF_WinformsHost.csproj", "{B1EB0BB0-C662-4314-A3D3-20E1AD0F98D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eto.Gl.WPF_WinformsHost", "Eto.Gl.WPF_WinformsHost\Eto.Gl.WPF_WinformsHost.csproj", "{43C9116A-2F41-4F57-88E5-6B49BFB7881B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eto.Gl.WPF_WinformsHost", "Eto.Gl.WPF_WinformsHost\Eto.Gl.WPF_WinformsHost.csproj", "{43C9116A-2F41-4F57-88E5-6B49BFB7881B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
