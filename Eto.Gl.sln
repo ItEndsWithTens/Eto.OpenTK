@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eto.Gl.Mac", "Eto.Gl.Mac\Et
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEtoGl.Mac", "TestEtoGl.Mac\TestEtoGl.Mac.csproj", "{D7CEAEBF-7F61-4220-9920-61FDA4B1470F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEtoGl", "TestEtoGl\TestEtoGl.csproj", "{66C691D6-557F-4477-BF96-FA5BC92C715B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestEtoGl", "TestEtoGl\TestEtoGl.csproj", "{66C691D6-557F-4477-BF96-FA5BC92C715B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEtoGl.WinForms", "TestEtoGl.WinForms\TestEtoGl.WinForms.csproj", "{2A29DA7C-7CB0-458A-9EA8-85811AD952E1}"
 EndProject
@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEtoGl.XamMac", "TestEto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eto.Gl.XamMac", "Eto.Gl.XamMac\Eto.Gl.XamMac.csproj", "{D260DEBB-3D35-46A4-AB23-F2A19CC10E28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eto.Gl", "Eto.Gl\Eto.Gl.csproj", "{510CE98D-2169-48A0-889C-E743417EE5E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eto.Gl", "Eto.Gl\Eto.Gl.csproj", "{510CE98D-2169-48A0-889C-E743417EE5E1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEtoGl.Gtk2", "TestEtoGl.Gtk2\TestEtoGl.Gtk2.csproj", "{02F28D06-103A-4800-9E40-E9717D77449F}"
 EndProject
@@ -84,6 +84,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8367A496-65A1-47E8-8119-B1D5C35401D4}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
