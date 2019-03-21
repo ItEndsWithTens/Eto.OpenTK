@@ -67,7 +67,7 @@
     <Reference Include="Xamarin.Mac" />
     <Reference Include="System.Drawing" />
     <Reference Include="OpenTK">
-      <HintPath>..\packages\OpenTK.3.0.1\lib\net20\OpenTK.dll</HintPath>
+      <HintPath>..\lib\opentk\bin\OpenTK\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="Eto">
@@ -95,7 +95,6 @@
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />
-    <None Include="OpenTK.dll.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Eto.Gl\Eto.Gl.csproj">
