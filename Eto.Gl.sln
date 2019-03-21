@@ -27,12 +27,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestEtoGl.WPF_WinformsHost"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eto.Gl.WPF_WinformsHost", "Eto.Gl.WPF_WinformsHost\Eto.Gl.WPF_WinformsHost.csproj", "{43C9116A-2F41-4F57-88E5-6B49BFB7881B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{E7EDA411-95C9-4952-AC81-31886FEA4004}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E7EDA411-95C9-4952-AC81-31886FEA4004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7EDA411-95C9-4952-AC81-31886FEA4004}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06F7AC59-0E70-4646-BBFA-C105D9664FD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{06F7AC59-0E70-4646-BBFA-C105D9664FD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06F7AC59-0E70-4646-BBFA-C105D9664FD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
