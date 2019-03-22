@@ -46,7 +46,7 @@ class Build : NukeBuild
     [Solution("Eto.Gl.sln")] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
 
-    AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
+    AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts" / Configuration;
 
     AbsolutePath VSInstallationPath;
     AbsolutePath CustomMsBuildPath;
@@ -178,6 +178,7 @@ class Build : NukeBuild
              .SetToolPath(CustomMsBuildPath))
             .SetMaxCpuCount(Environment.ProcessorCount)
             .SetNodeReuse(IsLocalBuild)
+            .SetOutDir(ArtifactsDirectory)
             .CombineWith(projects, (s, p) => s
                 .SetProjectFile(Solution.GetProject($"{p}"))));
     }
