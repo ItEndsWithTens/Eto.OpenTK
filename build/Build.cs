@@ -46,7 +46,10 @@ class Build : NukeBuild
     [Solution("Eto.Gl.sln")] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
 
-    AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts" / Configuration;
+    [PackageExecutable("NuGet.CommandLine", "NuGet.exe")]
+    readonly Tool NuGetPascalCase;
+
+	AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts" / Configuration;
 
     AbsolutePath VSInstallationPath;
     AbsolutePath CustomMsBuildPath;
@@ -92,12 +95,6 @@ class Build : NukeBuild
         return Path.Combine(vsPath, "Common7", "Tools", "VsDevCmd.bat");
     }
 
-    Target Clean => _ => _
-        .Executes(() =>
-        {
-            EnsureCleanDirectory(ArtifactsDirectory);
-        });
-
     Target SetVisualStudioPaths => _ => _
         .Unlisted()
         .Executes(() =>
@@ -121,7 +118,7 @@ class Build : NukeBuild
 
     Target CompileOpenTK => _ => _
         .OnlyWhenStatic(() => RebuildDependencies == true || !File.Exists(OpenTKRoot / "bin" / "OpenTK" / "OpenTK.dll"))
-        .DependsOn(Clean, SetVisualStudioPaths)
+        .DependsOn(SetVisualStudioPaths)
         .Executes(() =>
         {
             // If the OpenTK directory doesn't exist, or it exists but is empty,
@@ -167,10 +164,20 @@ class Build : NukeBuild
                 logInvocation: true).AssertZeroExitCode();
         });
 
+    Target Clean => _ => _
+        .Executes(() =>
+        {
+            EnsureCleanDirectory(ArtifactsDirectory);
+        });
+
     private void Compile(params string[] projects)
     {
+        foreach (string project in projects)
+        {
+            NuGetPascalCase($"restore {Solution.GetProject(project).Path} -SolutionDirectory {RootDirectory}");
+        }
+
         MSBuild(settings => settings
-            .EnableRestore()
             .SetTargets("Build")
             .SetConfiguration(Configuration)
             .When(CustomMsBuildPath != null, s => s
@@ -188,7 +195,7 @@ class Build : NukeBuild
     }
 
     Target CompileLibrary => _ => _
-        .DependsOn(CompileOpenTK)
+        .DependsOn(CompileOpenTK, Clean)
         .Executes(() =>
         {
             Compile("Eto.Gl");
