@@ -134,7 +134,7 @@ class Build : NukeBuild
             // with uncommitted changes someone wants to test, so leave them be.
             if (!DirectoryExists(OpenTKRoot) || !Directory.EnumerateFileSystemEntries(OpenTKRoot).Any())
             {
-                Git("submodule update lib/opentk");
+                Git("submodule update --init lib/opentk");
             }
 
             string commandProcessor;
