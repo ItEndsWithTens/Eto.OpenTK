@@ -46,9 +46,6 @@ class Build : NukeBuild
     [Solution("Eto.Gl.sln")] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
 
-    [PackageExecutable("NuGet.CommandLine", "NuGet.exe")]
-    readonly Tool NuGetPascalCase;
-
 	AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts" / Configuration;
 
     AbsolutePath VSInstallationPath;
@@ -172,12 +169,8 @@ class Build : NukeBuild
 
     private void Compile(params string[] projects)
     {
-        foreach (string project in projects)
-        {
-            NuGetPascalCase($"restore {Solution.GetProject(project).Path} -SolutionDirectory {RootDirectory}");
-        }
-
         MSBuild(settings => settings
+            .EnableRestore()
             .SetTargets("Build")
             .SetConfiguration(Configuration)
             .When(CustomMsBuildPath != null, s => s
