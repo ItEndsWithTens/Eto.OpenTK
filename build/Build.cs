@@ -174,12 +174,17 @@ class Build : NukeBuild
             .SetTargets("Build")
             .SetConfiguration(Configuration)
             .When(CustomMsBuildPath != null, s => s
-             .SetToolPath(CustomMsBuildPath))
+                .SetToolPath(CustomMsBuildPath))
             .SetMaxCpuCount(Environment.ProcessorCount)
             .SetNodeReuse(IsLocalBuild)
-            .SetOutDir(ArtifactsDirectory)
             .CombineWith(projects, (s, p) => s
-                .SetProjectFile(Solution.GetProject($"{p}"))));
+                .SetProjectFile(Solution.GetProject(p))
+                .SetOutDir(ArtifactsDirectory / p)
+                // This Appalachian Trail of a SetProperty call is necessary to
+                // account for Xamarin.Mac's .app packaging process not paying
+                // attention to the OutDir property, set just above. OutputPath
+                // is also expected to be relative, and end with a separator.
+                .SetProperty("OutputPath", GetRelativePath(Solution.GetProject(p).Directory, ArtifactsDirectory / p) + Path.DirectorySeparatorChar)));
     }
 
     Target CompileLibrary => _ => _
