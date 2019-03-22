@@ -99,10 +99,13 @@ class Build : NukeBuild
         });
 
     Target SetVisualStudioPaths => _ => _
+        .Unlisted()
         .Executes(() =>
         {
             if (EnvironmentInfo.IsWin)
             {
+                Nuke.Common.Logger.Info("Windows build; setting Visual Studio paths.");
+
                 // Windows developers with Visual Studio installed to a directory
                 // other than System.Environment.SpecialFolder.ProgramFilesX86 need
                 // to tell Nuke the path to MSBuild.exe themselves.
@@ -110,22 +113,15 @@ class Build : NukeBuild
 
                 VSDevCmdPath = (AbsolutePath)GetVSDevCmdPath();
             }
-        });
-
-    Target Restore => _ => _
-        .DependsOn(Clean, SetVisualStudioPaths)
-        .Executes(() =>
-        {
-            MSBuild(settings => settings
-                .When(CustomMsBuildPath != null, s =>s
-                    .SetToolPath(CustomMsBuildPath))
-                .SetTargetPath(Solution)
-                .SetTargets("Restore"));
+            else
+            {
+                Nuke.Common.Logger.Info("Mono build; no Visual Studio paths to set.");
+            }
         });
 
     Target CompileOpenTK => _ => _
         .OnlyWhenStatic(() => RebuildDependencies == true || !File.Exists(OpenTKRoot / "bin" / "OpenTK" / "OpenTK.dll"))
-        .DependsOn(Restore)
+        .DependsOn(Clean, SetVisualStudioPaths)
         .Executes(() =>
         {
             // If the OpenTK directory doesn't exist, or it exists but is empty,
@@ -153,13 +149,15 @@ class Build : NukeBuild
                 //
                 // Use a double ampersand so cmd will wait for the first command
                 // to finish before starting the second one.
+                //
+                // Finally, run the build script, skipping OpenTK's tests.
                 commandProcessor = "cmd";
-                args = $"/C call \"{VSDevCmdPath}\" && build.cmd";
+                args = $"/C call \"{VSDevCmdPath}\" && .\\build.cmd CopyBinaries";
             }
             else
             {
                 commandProcessor = "bash";
-                args = "-c build.sh";
+                args = "-c \"./build.sh CopyBinaries\"";
             }
 
             ProcessTasks.StartProcess(commandProcessor,
@@ -172,6 +170,7 @@ class Build : NukeBuild
     private void Compile(params string[] projects)
     {
         MSBuild(settings => settings
+            .EnableRestore()
             .SetTargets("Build")
             .SetConfiguration(Configuration)
             .When(CustomMsBuildPath != null, s => s
