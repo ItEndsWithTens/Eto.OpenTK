@@ -1,5 +1,6 @@
 ﻿using Eto.Gl;
 using Eto.Forms;
+using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace TestEtoGl.WPF_Framebuffer
     [STAThread]
     static void Main()
     {
+      Toolkit.Init(new ToolkitOptions { Backend = PlatformBackend.PreferNative });
+
       var platform = new Eto.WinForms.Platform();
       platform.Add<GLSurface.IHandler>(() => new Eto.Gl.Windows.WinGLSurfaceHandler());
 
