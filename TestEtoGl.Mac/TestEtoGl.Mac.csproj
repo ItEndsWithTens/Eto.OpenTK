@@ -6,11 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Arbatel.OpenTK" Version="$(ArbatelOpenTKVersion)" />
     <PackageReference Include="Eto.Forms" Version="2.4.1" />
     <PackageReference Include="Eto.Platform.Mac64" Version="2.4.1" />
-    <Reference Include="OpenTK">
-      <HintPath>..\lib\opentk\bin\OpenTK\OpenTK.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>

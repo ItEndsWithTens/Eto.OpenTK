@@ -66,10 +66,8 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.Mac" />
     <Reference Include="System.Drawing" />
-    <Reference Include="OpenTK">
-      <HintPath>..\lib\opentk\bin\OpenTK\OpenTK.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <PackageReference Include="Arbatel.OpenTK" Version="$(ArbatelOpenTKVersion)" />
     <PackageReference Include="Eto.Forms" Version="2.4.1" />
     <PackageReference Include="Eto.Platform.XamMac2" Version="2.4.1" />
   </ItemGroup>

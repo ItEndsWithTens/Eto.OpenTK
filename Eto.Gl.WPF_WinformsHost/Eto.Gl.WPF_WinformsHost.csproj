@@ -6,15 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Arbatel.OpenTK" Version="$(ArbatelOpenTKVersion)" />
+    <PackageReference Include="Arbatel.OpenTK.GLControl" Version="$(ArbatelOpenTKVersion)" />
     <PackageReference Include="Eto.Forms" Version="2.4.1" />
     <PackageReference Include="Eto.Platform.Windows" Version="2.4.1" />
     <PackageReference Include="Eto.Platform.Wpf" Version="2.4.1" />
-    <Reference Include="OpenTK">
-      <HintPath>..\lib\opentk\bin\OpenTK\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK.GLControl">
-      <HintPath>..\lib\opentk\bin\OpenTK.GLControl\OpenTK.GLControl.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System.Windows.Forms" />

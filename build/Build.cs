@@ -38,26 +38,12 @@ class Build : NukeBuild
     [Parameter("Whether to build test projects - Default is false")]
     readonly bool BuildTests = false;
 
-    static AbsolutePath OpenTKRoot = RootDirectory / "lib" / "opentk";
-
-    [Parameter("Whether to rebuild vendored dependencies - Default is false (local) or true (server)")]
-    readonly bool RebuildDependencies = IsLocalBuild ? false : true;
-
     [Solution("Eto.Gl.sln")] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts" / Configuration;
 
     AbsolutePath CustomMsBuildPath;
-    AbsolutePath VSDevCmdPath;
-
-    // Some OpenTK projects are F#-based, namely the various test projects. At
-    // the moment those tests don't run, since they fail on some platforms when
-    // testing features etoViewport doesn't even use. Unfortunately the only way
-    // to entirely avoid building them would be to modify the OpenTK build, and
-    // that's its own can of worms. This FSharp component is only an extra 120MB
-    // or so for a multi-gig VS install, so requiring it seems reasonable.
-    const string FSharpComponent = "Microsoft.VisualStudio.Component.FSharp";
 
     Target SetVisualStudioPaths => _ => _
         .Unlisted()
@@ -67,15 +53,9 @@ class Build : NukeBuild
             {
                 Logger.Info("Windows build; setting Visual Studio paths.");
 
-                // This will find the latest version of Visual Studio installed
-                // on the current system that satisfies all the requirements; if
-                // for example you have both VS2017 and VS2019 installed, and
-                // the former has both MSBuild and FSharp components while the
-                // latter is missing FSharp, this will find the 2017 install.
                 VSWhereSettings vswhereSettings = new VSWhereSettings()
                     .EnableLatest()
-                    .AddRequires(MsBuildComponent)
-                    .AddRequires(FSharpComponent);
+                    .AddRequires(MsBuildComponent);
 
                 IReadOnlyCollection<Output> output = VSWhere(s => vswhereSettings).Output;
 
@@ -92,8 +72,7 @@ class Build : NukeBuild
                         "has all of the following components installed:" +
                         "\n" +
                         "\n" +
-                        $"MSBuild ({MsBuildComponent})\n" +
-                        $"F# language support ({FSharpComponent})");
+                        $"MSBuild ({MsBuildComponent})");
                 }
 
                 string vsPath = outputPath.Text.Replace("installationPath: ", "");
@@ -109,81 +88,11 @@ class Build : NukeBuild
                 // other than System.Environment.SpecialFolder.ProgramFilesX86 need
                 // to tell Nuke the path to MSBuild.exe themselves.
                 CustomMsBuildPath = (AbsolutePath)GlobFiles(Path.Combine(vsPath, "MSBuild"), "**/Bin/MSBuild.exe").First();
-
-                VSDevCmdPath = (AbsolutePath)Path.Combine(vsPath, "Common7", "Tools", "VsDevCmd.bat");
             }
             else
             {
                 Logger.Info("Mono build; no Visual Studio paths to set.");
             }
-        });
-
-    Target CompileOpenTK => _ => _
-        .OnlyWhenStatic(() => RebuildDependencies == true || !File.Exists(OpenTKRoot / "bin" / "OpenTK" / "OpenTK.dll"))
-        .DependsOn(SetVisualStudioPaths)
-        .Executes(() =>
-        {
-            // If the OpenTK directory doesn't exist, or it exists but is empty,
-            // the submodule needs to be cloned before the build. Otherwise, it
-            // can probably be assumed there's a copy of the code in place, but
-            // with uncommitted changes someone wants to test, so leave them be.
-            if (!DirectoryExists(OpenTKRoot) || !Directory.EnumerateFileSystemEntries(OpenTKRoot).Any())
-            {
-                Git("submodule update --init lib/opentk");
-            }
-
-            string commandProcessor;
-            string args;
-
-            if (EnvironmentInfo.IsWin)
-            {
-                // Expressly run the OpenTK build script with the 'cmd' command
-                // processor, in case this Nuke script is running in PowerShell.
-                //
-                // Use '/C' to run the following string as a command, then exit.
-                //
-                // Run VsDevCmd.bat first to set up the proper environment for
-                // the OpenTK build, using 'call' to ensure said .bat doesn't
-                // exit the enclosing shell when it's finished.
-                //
-                // Use a double ampersand so cmd will wait for the first command
-                // to finish before starting the second one.
-                //
-                // Finally, run the build script, skipping OpenTK's tests.
-                commandProcessor = "cmd";
-                args = $"/C call \"{VSDevCmdPath}\" && .\\build.cmd CopyBinaries";
-            }
-            else
-            {
-                commandProcessor = "bash";
-                args = "-c \"./build.sh CopyBinaries\"";
-            }
-
-            // The version of FAKE used by OpenTK 3.0.1 is legacy, and doesn't
-            // use VSWhere to find MSBuild, so an environment variable does the
-            // job instead. See this description of FAKE's search procedure:
-            // https://github.com/fsharp/FAKE/blob/694f616c97fa242162cfd36db905d7df3156018f/src/legacy/FakeLib/MSBuildHelper.fs#L60
-            //
-            // Earlier in that same file is a list of known VS versions, which
-            // doesn't include anything after 2017:
-            // https://github.com/fsharp/FAKE/blob/694f616c97fa242162cfd36db905d7df3156018f/src/legacy/FakeLib/MSBuildHelper.fs#L29
-            //
-            // Setting this MSBUILD variable is the simplest way to let OpenTK's
-            // build script keep working without actually modifying it. Note how
-            // this is initialized with EnvironmentInfo.Variables; whatever you
-            // pass to StartProcess for environmentVariables will replace any
-            // existing variables, and that's no good for a build.
-            var vars = new Dictionary<string, string>(EnvironmentInfo.Variables)
-            {
-                { "MSBUILD", CustomMsBuildPath }
-            };
-
-            ProcessTasks.StartProcess(commandProcessor,
-                arguments: args,
-                workingDirectory: OpenTKRoot,
-                environmentVariables: vars,
-                logOutput: true,
-                logInvocation: true).AssertZeroExitCode();
         });
 
     Target Clean => _ => _
@@ -213,7 +122,7 @@ class Build : NukeBuild
     }
 
     Target CompileLibrary => _ => _
-        .DependsOn(CompileOpenTK, Clean)
+        .DependsOn(SetVisualStudioPaths, Clean)
         .Executes(() =>
         {
             Compile("Eto.Gl");

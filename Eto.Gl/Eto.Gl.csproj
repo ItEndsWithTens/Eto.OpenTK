@@ -6,17 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Arbatel.OpenTK" Version="$(ArbatelOpenTKVersion)" />
     <PackageReference Include="Eto.Forms" Version="2.4.1" />
-    <Reference Include="OpenTK">
-      <HintPath>..\lib\opentk\bin\OpenTK\OpenTK.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="..\lib\opentk\bin\OpenTK\OpenTK.dll.config" />
-    <Content Include="..\lib\opentk\bin\OpenTK\OpenTK.dll.config" Link="OpenTK.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+  <Target Name="CopyOpenTKConfig" AfterTargets="Build">
+    <Copy
+        SourceFiles="$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))arbatel.opentk\$(ArbatelOpenTKVersion)\content\OpenTK.dll.config"
+        DestinationFolder="$(OutputPath)" />
+  </Target>
 
 </Project>

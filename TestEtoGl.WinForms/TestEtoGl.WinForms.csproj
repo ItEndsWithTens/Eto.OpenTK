@@ -12,11 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Arbatel.OpenTK" Version="$(ArbatelOpenTKVersion)" />
     <PackageReference Include="Eto.Forms" Version="2.4.1" />
     <PackageReference Include="Eto.Platform.Windows" Version="2.4.1" />
-    <Reference Include="OpenTK">
-      <HintPath>..\lib\opentk\bin\OpenTK\OpenTK.dll</HintPath>
-    </Reference>
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 

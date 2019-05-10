@@ -1,4 +1,0 @@
-[submodule "lib/opentk"]
-	path = lib/opentk
-	url = https://github.com/ItEndsWithTens/opentk.git
-	branch = arbatel
